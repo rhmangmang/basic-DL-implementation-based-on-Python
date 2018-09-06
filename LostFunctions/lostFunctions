@@ -16,18 +16,23 @@ class lostFunctions (object):
 		:return: 交叉熵误差
 		'''
 		delta = 1e-7
-		exp_y = np.log(y+delta) # 因为y中可能有元素为0，为了避免出现log0，所以加上一个很小的值：delta
-		return -np.sum(exp_y*t)
+		log_y = np.log(y+delta) # 因为y中可能有元素为0，为了避免出现log0，所以加上一个很小的值：delta
+		return -np.sum(log_y*t)
 
-# def softMax (a):
-# 	'''
-# 	:param a: a是一个np数组
-# 	:return: 返回也是一个np数组
-# 	'''
-# 	c = np.max(a)
-# 	exp_a = np.exp(a-c)
-# 	sum_exp_a = np.sum(exp_a)
-# 	y = exp_a/sum_exp_a
-#
-# 	return y
+	def cross_entropy_error_mini_batch(self, y, t):
+		'''
+		这是mini-batch版的交叉熵误差实现
+		同时也可以处理单个样本数据的情况
+		:param y: y为预测向量，为np数组，其中y的行数就是样本个数，y的列数就是预测出的值的个数
+		:param t: t为真实向量，为np数组，其中t的行数就是样本个数
+		:return:
+		'''
+		delta = 1e-7
+		if (y.ndim == 1):
+			t = t.reshape((1, t.size))
+			y = y.reshape((1, y.size)) # 当y为1维np时，将y变成2维np，其中第0维长度为1，第1维长度为y.size
 
+		batch_size = y.shape[0] #
+		log_y = np.log(y+delta)
+
+		return -np.sum(t*log_y)/batch_size
