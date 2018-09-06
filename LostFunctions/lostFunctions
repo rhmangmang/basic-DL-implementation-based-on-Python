@@ -1,0 +1,33 @@
+import numpy as np
+
+class lostFunctions (object):
+	def mean_squared_error (self, y, t):
+		'''
+		:param y: y为预测向量，为np数组
+		:param t: t为真实向量，为np数组
+		:return: 均方误差
+		'''
+		return 0.5*np.sum((y-t)**2)
+
+	def cross_entropy_error (self, y, t):
+		'''
+		:param y: y为预测向量，为np数组
+		:param t: t为真实向量，为np数组
+		:return: 交叉熵误差
+		'''
+		delta = 1e-7
+		exp_y = np.log(y+delta) # 因为y中可能有元素为0，为了避免出现log0，所以加上一个很小的值：delta
+		return -np.sum(exp_y*t)
+
+# def softMax (a):
+# 	'''
+# 	:param a: a是一个np数组
+# 	:return: 返回也是一个np数组
+# 	'''
+# 	c = np.max(a)
+# 	exp_a = np.exp(a-c)
+# 	sum_exp_a = np.sum(exp_a)
+# 	y = exp_a/sum_exp_a
+#
+# 	return y
+
